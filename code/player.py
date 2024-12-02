@@ -1,7 +1,7 @@
 import pygame
 from os.path import join
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
-from sprite_groups import all_sprites
+from sprite_groups import all_sprites, laser_sprites
 from laser import Laser
 
 
@@ -44,6 +44,7 @@ class Player(pygame.sprite.Sprite):
     def shoot(self):
         recent_keys = pygame.key.get_just_pressed()
         if recent_keys[pygame.K_SPACE] and self.can_shoot:
-            Laser(self.laser_surf, self.rect.midtop, all_sprites)
+            Laser(self.laser_surf, self.rect.midtop,
+                  (all_sprites, laser_sprites))
             self.can_shoot = False
             self.laser_shoot_time = pygame.time.get_ticks()
