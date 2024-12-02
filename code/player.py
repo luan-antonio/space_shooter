@@ -1,6 +1,8 @@
 import pygame
 from os.path import join
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
+from sprite_groups import all_sprites
+from laser import Laser
 
 
 class Player(pygame.sprite.Sprite):
@@ -12,10 +14,24 @@ class Player(pygame.sprite.Sprite):
             center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
         self.direction = pygame.math.Vector2(0, 0)
         self.speed = 300
+        self.laser_surf = pygame.image.load(
+            join('images', 'laser.png')).convert_alpha()
+
+        # cooldown
+        self.can_shoot = True
+        self.laser_shoot_time = 0
+        self.cooldown_duration = 400
+
+    def laser_timer(self):
+        if not self.can_shoot:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.laser_shoot_time >= self.cooldown_duration:
+                self.can_shoot = True
 
     def update(self, dt):
         self.move(dt)
         self.shoot()
+        self.laser_timer()
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
@@ -27,5 +43,7 @@ class Player(pygame.sprite.Sprite):
 
     def shoot(self):
         recent_keys = pygame.key.get_just_pressed()
-        if recent_keys[pygame.K_SPACE]:
-            print('fire laser')
+        if recent_keys[pygame.K_SPACE] and self.can_shoot:
+            Laser(self.laser_surf, self.rect.midtop, all_sprites)
+            self.can_shoot = False
+            self.laser_shoot_time = pygame.time.get_ticks()

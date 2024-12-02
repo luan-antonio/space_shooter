@@ -3,8 +3,11 @@
 import pygame
 from player import Player
 from star import Star
+from meteor import Meteor
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 from os.path import join
+from sprite_groups import all_sprites
+from random import randint
 
 # general setup
 pygame.init()
@@ -13,17 +16,16 @@ pygame.display.set_caption('Space Shooter')
 running = True
 clock = pygame.time.Clock()
 
-all_sprites = pygame.sprite.Group()
 star_surf = pygame.image.load(
     join('images', 'star.png')).convert_alpha()
 [Star(all_sprites, star_surf) for i in range(45)]
 player = Player(all_sprites)
 
 meteor_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
-meteor_rect = meteor_surf.get_frect(center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
 
-laser_surf = pygame.image.load(join('images', 'laser.png')).convert_alpha()
-laser_rect = laser_surf.get_frect(bottomleft=(20, WINDOW_HEIGHT - 20))
+# custom events -> meteor event
+meteor_event = pygame.event.custom_type()
+pygame.time.set_timer(meteor_event, 500)
 
 while running:
     dt = clock.tick() / 1000
@@ -31,7 +33,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        if event.type == meteor_event:
+            x, y = randint(0, WINDOW_WIDTH), randint(-200, -100)
+            Meteor(meteor_surf, (x, y), all_sprites)
     all_sprites.update(dt)
 
     # draw the game
