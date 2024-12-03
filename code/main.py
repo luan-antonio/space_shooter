@@ -35,6 +35,10 @@ meteor_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
 font = pygame.font.Font(join('images', 'Oxanium-Bold.ttf'), 40)
 explosion_frames = [pygame.image.load(
     join('images', 'explosion', f'{i}.png')).convert_alpha() for i in range(21)]
+explosion_sound = pygame.mixer.Sound(join('audio', 'explosion.wav'))
+game_music = pygame.mixer.Sound(join('audio', 'game_music.wav'))
+game_music.set_volume(0.4)
+game_music.play(loops=-1)
 
 
 # custom events -> meteor event
@@ -49,7 +53,8 @@ def collisions():
     for laser in laser_sprites:
         if pygame.sprite.spritecollide(laser, meteor_sprites, True, pygame.sprite.collide_mask):
             laser.kill()
-            AnimatedExplosion(explosion_frames, laser.rect.midtop, all_sprites)
+            AnimatedExplosion(explosion_sound, explosion_frames,
+                              laser.rect.midtop, all_sprites)
 
 
 [Star(all_sprites, star_surf) for i in range(45)]

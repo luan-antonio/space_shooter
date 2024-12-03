@@ -2,12 +2,13 @@ import pygame
 
 
 class AnimatedExplosion(pygame.sprite.Sprite):
-    def __init__(self, frames, pos, groups):
+    def __init__(self, sound, frames, pos, groups):
         super().__init__(groups)
         self.frames = frames
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_frect(center=pos)
+        sound.play()
 
     def update(self, dt):
         self.frame_index += 20 * dt

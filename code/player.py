@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 300
         self.laser_surf = pygame.image.load(
             join('images', 'laser.png')).convert_alpha()
+        self.laser_sound = pygame.mixer.Sound(join('audio', 'laser.wav'))
 
         # cooldown
         self.can_shoot = True
@@ -44,7 +45,7 @@ class Player(pygame.sprite.Sprite):
     def shoot(self):
         recent_keys = pygame.key.get_just_pressed()
         if recent_keys[pygame.K_SPACE] and self.can_shoot:
-            Laser(self.laser_surf, self.rect.midtop,
+            Laser(self.laser_sound, self.laser_surf, self.rect.midtop,
                   (all_sprites, laser_sprites))
             self.can_shoot = False
             self.laser_shoot_time = pygame.time.get_ticks()
