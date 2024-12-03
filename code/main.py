@@ -16,12 +16,23 @@ pygame.display.set_caption('Space Shooter')
 running = True
 clock = pygame.time.Clock()
 
+
+def get_score():
+    current_time = pygame.time.get_ticks() // 100
+    text_surf = font.render(f'{current_time}', True, (240, 240, 240))
+    text_rect = text_surf.get_frect(
+        midbottom=(WINDOW_WIDTH/2, WINDOW_HEIGHT - 50))
+    pygame.draw.rect(display_surface, (240, 240, 240),
+                     text_rect.inflate(20, 10).move(0, -8), 5, 10)
+    return (text_surf, text_rect)
+
+
+# imports
 star_surf = pygame.image.load(
     join('images', 'star.png')).convert_alpha()
-[Star(all_sprites, star_surf) for i in range(45)]
-player = Player(all_sprites)
-
 meteor_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
+font = pygame.font.Font(join('images', 'Oxanium-Bold.ttf'), 40)
+
 
 # custom events -> meteor event
 meteor_event = pygame.event.custom_type()
@@ -37,6 +48,9 @@ def collisions():
             laser.kill()
 
 
+[Star(all_sprites, star_surf) for i in range(45)]
+player = Player(all_sprites)
+
 while running:
     dt = clock.tick() / 1000
     # event loop
@@ -51,11 +65,11 @@ while running:
     collisions()
 
     # draw the game
-    display_surface.fill('darkgray')
+    display_surface.fill('#3a2e3f')
     all_sprites.draw(display_surface)
 
-    # test collision
-    # player.rect.colliderect()
+    (text_surf, text_rect) = get_score()
+    display_surface.blit(text_surf, text_rect)
 
     pygame.display.update()
 pygame.quit()
