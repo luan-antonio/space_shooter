@@ -44,7 +44,7 @@ def collisions():
     if pygame.sprite.spritecollide(player, meteor_sprites, True, pygame.sprite.collide_mask):
         running = False
     for laser in laser_sprites:
-        if pygame.sprite.spritecollide(laser, meteor_sprites, True):
+        if pygame.sprite.spritecollide(laser, meteor_sprites, True, pygame.sprite.collide_mask):
             laser.kill()
 
 
