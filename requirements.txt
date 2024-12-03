@@ -1,0 +1,2 @@
+pygame-ce==2.5.2
+setuptools==75.6.0
