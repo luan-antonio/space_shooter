@@ -4,6 +4,7 @@ import pygame
 from player import Player
 from star import Star
 from meteor import Meteor
+from animated_explosion import AnimatedExplosion
 from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 from os.path import join
 from sprite_groups import all_sprites, meteor_sprites, laser_sprites
@@ -32,6 +33,8 @@ star_surf = pygame.image.load(
     join('images', 'star.png')).convert_alpha()
 meteor_surf = pygame.image.load(join('images', 'meteor.png')).convert_alpha()
 font = pygame.font.Font(join('images', 'Oxanium-Bold.ttf'), 40)
+explosion_frames = [pygame.image.load(
+    join('images', 'explosion', f'{i}.png')).convert_alpha() for i in range(21)]
 
 
 # custom events -> meteor event
@@ -46,6 +49,7 @@ def collisions():
     for laser in laser_sprites:
         if pygame.sprite.spritecollide(laser, meteor_sprites, True, pygame.sprite.collide_mask):
             laser.kill()
+            AnimatedExplosion(explosion_frames, laser.rect.midtop, all_sprites)
 
 
 [Star(all_sprites, star_surf) for i in range(45)]
