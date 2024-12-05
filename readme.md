@@ -16,7 +16,7 @@
 
 ---
 
-## 🚀 Como jogar
+## 🚀 How to play
 
 1. **Movement:**
    - Use the **[W/A/S/D]** keys or the arrow keys to move the spaceship.
