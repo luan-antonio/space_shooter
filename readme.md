@@ -22,7 +22,7 @@
    - Use the **[W/A/S/D]** keys or the arrow keys to move the spaceship.
 2. **Shooting:**
    - Press the **[Space]** key to shoot at enemies.
-3. **Objetivo:**
+3. **Objective:**
    - Destroy enemies and avoid collisions to score points.
 
 ---
